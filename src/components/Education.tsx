@@ -66,7 +66,7 @@ export default function Education() {
               <div className="flex flex-col sm:flex-row gap-4 pt-2 border-t border-card-border/50 text-xs font-mono text-foreground/60">
                 <div className="flex items-center gap-1.5">
                   <Calendar size={13} className="text-accent-blue" />
-                  <span>2023 - 2027 (Expected)</span>
+                  <span>2024 - 2028 (Expected)</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <MapPin size={13} className="text-accent-purple" />
