@@ -128,7 +128,7 @@ export default function DSAProfiles() {
           }));
         }
       })
-      .catch(err => console.error("Error fetching LeetCode solved:", err));
+      .catch(() => {}); // Silently fall back to defaults
 
     // 2. Fetch LeetCode Contest Stats
     fetch("https://alfa-leetcode-api.onrender.com/rajtripathi08/contest")
@@ -144,7 +144,7 @@ export default function DSAProfiles() {
           }));
         }
       })
-      .catch(err => console.error("Error fetching LeetCode contest details:", err));
+      .catch(() => {});
 
     // 3. Fetch Codeforces unique solved count
     fetch("https://codeforces.com/api/user.status?handle=rajpandit08")
@@ -165,7 +165,7 @@ export default function DSAProfiles() {
           }
         }
       })
-      .catch(err => console.error("Error fetching Codeforces solved count:", err));
+      .catch(() => {});
 
     // 4. Fetch Codeforces user rating and rank
     fetch("https://codeforces.com/api/user.info?handles=rajpandit08")
@@ -186,10 +186,10 @@ export default function DSAProfiles() {
           }));
         }
       })
-      .catch(err => console.error("Error fetching Codeforces user info:", err));
+      .catch(() => {});
 
-    // 5. Fetch GeeksforGeeks Stats
-    fetch("https://gfgstatscard.vercel.app/rajtripz5vn?raw=true")
+    // 5. Fetch GeeksforGeeks Stats via local API proxy (avoids CORS)
+    fetch("/api/gfg-stats")
       .then(res => res.json())
       .then(data => {
         if (data) {
@@ -230,7 +230,7 @@ export default function DSAProfiles() {
           });
         }
       })
-      .catch(err => console.error("Error fetching GeeksforGeeks stats:", err));
+      .catch(() => {});
   }, []);
 
   const handleToggle = (key: keyof typeof masteredTopics) => {

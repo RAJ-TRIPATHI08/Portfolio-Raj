@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowUp, Github, Linkedin, MessageSquare, Award } from "lucide-react";
+import { ArrowUp, Github, Linkedin, Award } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Footer() {
   const [isVisible, setIsVisible] = useState(false);
@@ -28,6 +29,9 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-card-border bg-background/50 backdrop-blur-md mt-auto relative">
+      {/* Gradient separator line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-blue/30 to-transparent" />
+
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Logo and info */}
         <div className="text-center md:text-left">
@@ -40,34 +44,25 @@ export default function Footer() {
         </div>
 
         {/* Social Icons */}
-        <div className="flex items-center gap-4">
-          <a
-            href="https://linkedin.com/in/raj-tripathi-ab341a372"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2.5 rounded-xl border border-card-border bg-card-bg hover:border-accent-blue/40 hover:bg-white/5 transition-colors cursor-pointer text-foreground/60 hover:text-foreground"
-            aria-label="LinkedIn Profile"
-          >
-            <Linkedin size={16} />
-          </a>
-          <a
-            href="https://github.com/RAJ-TRIPATHI08/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2.5 rounded-xl border border-card-border bg-card-bg hover:border-accent-blue/40 hover:bg-white/5 transition-colors cursor-pointer text-foreground/60 hover:text-foreground"
-            aria-label="GitHub Profile"
-          >
-            <Github size={16} />
-          </a>
-          <a
-            href="https://leetcode.com/u/rajtripathi08/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2.5 rounded-xl border border-card-border bg-card-bg hover:border-accent-blue/40 hover:bg-white/5 transition-colors cursor-pointer text-foreground/60 hover:text-foreground"
-            aria-label="LeetCode Profile"
-          >
-            <Award size={16} />
-          </a>
+        <div className="flex items-center gap-3">
+          {[
+            { href: "https://linkedin.com/in/raj-tripathi-ab341a372", icon: <Linkedin size={16} />, label: "LinkedIn" },
+            { href: "https://github.com/RAJ-TRIPATHI08/", icon: <Github size={16} />, label: "GitHub" },
+            { href: "https://leetcode.com/u/rajtripathi08/", icon: <Award size={16} />, label: "LeetCode" },
+          ].map((social, idx) => (
+            <motion.a
+              key={idx}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 rounded-xl border border-card-border bg-card-bg hover:border-accent-blue/40 hover:bg-white/5 transition-colors cursor-pointer text-foreground/60 hover:text-foreground"
+              aria-label={`${social.label} Profile`}
+              whileHover={{ y: -3, scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {social.icon}
+            </motion.a>
+          ))}
         </div>
 
         {/* Copyright */}
@@ -77,16 +72,24 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Floating back-to-top button */}
-      {isVisible && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-6 right-6 p-3 z-30 rounded-xl bg-gradient-to-r from-accent-blue to-accent-purple text-white shadow-lg shadow-accent-blue/20 hover:scale-105 active:scale-95 transition-all cursor-pointer"
-          aria-label="Scroll back to top"
-        >
-          <ArrowUp size={18} />
-        </button>
-      )}
+      {/* Floating back-to-top button with AnimatePresence */}
+      <AnimatePresence>
+        {isVisible && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.5, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.5, y: 20 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 p-3 z-30 rounded-xl bg-gradient-to-r from-accent-blue to-accent-purple text-white shadow-lg shadow-accent-blue/20 hover:shadow-xl hover:shadow-accent-blue/30 cursor-pointer"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            aria-label="Scroll back to top"
+          >
+            <ArrowUp size={18} />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </footer>
   );
 }

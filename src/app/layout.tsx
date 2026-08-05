@@ -44,7 +44,7 @@ export default function RootLayout({
       lang="en"
       className={`${outfit.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col selection:bg-purple-500/30 selection:text-purple-200">
+      <body suppressHydrationWarning className="min-h-full flex flex-col selection:bg-purple-500/30 selection:text-purple-200">
         {children}
       </body>
     </html>

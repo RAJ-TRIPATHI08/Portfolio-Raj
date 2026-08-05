@@ -25,13 +25,31 @@ export default function Education() {
   return (
     <section id="education" className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-10">
       <div className="text-center mb-16">
-        <h2 className="text-3xl font-bold tracking-tight sm:text-5xl">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-3xl font-bold tracking-tight sm:text-5xl"
+        >
           My <span className="text-gradient">Education</span>
-        </h2>
-        <p className="mt-4 text-base sm:text-lg text-foreground/60 max-w-2xl mx-auto">
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mt-4 text-base sm:text-lg text-foreground/60 max-w-2xl mx-auto"
+        >
           Academic foundation and milestones during my Computer Science & Engineering journey.
-        </p>
-        <div className="mt-2 h-1.5 w-16 bg-gradient-to-r from-accent-blue to-accent-purple mx-auto rounded-full" />
+        </motion.p>
+        <motion.div
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-2 h-1.5 w-16 bg-gradient-to-r from-accent-blue to-accent-purple mx-auto rounded-full origin-center"
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
@@ -47,9 +65,16 @@ export default function Education() {
             {/* Decorative background glow */}
             <div className="absolute top-0 right-0 -z-10 translate-x-10 -translate-y-10 w-28 h-28 rounded-full bg-accent-blue/10 blur-2xl" />
 
-            <div className="flex items-center gap-3.5 mb-6">
-              <div className="p-3.5 rounded-2xl bg-accent-blue/10 text-accent-blue border border-accent-blue/20">
-                <GraduationCap size={28} />
+            {/* Timeline vertical line */}
+            <div className="absolute left-[2.6rem] top-8 bottom-8 w-0.5 bg-gradient-to-b from-accent-blue via-accent-purple to-transparent" />
+
+            <div className="flex items-center gap-3.5 mb-6 relative">
+              {/* Timeline dot with pulse */}
+              <div className="relative flex-shrink-0">
+                <div className="p-3.5 rounded-2xl bg-accent-blue/10 text-accent-blue border border-accent-blue/20 relative z-10">
+                  <GraduationCap size={28} />
+                </div>
+                <div className="absolute inset-0 rounded-2xl bg-accent-blue/20 animate-ping" style={{ animationDuration: '3s' }} />
               </div>
               <div>
                 <span className="text-xs font-mono font-semibold text-accent-blue uppercase tracking-wider">Undergraduate Program</span>
@@ -57,7 +82,7 @@ export default function Education() {
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4 ml-[3.2rem]">
               <div>
                 <p className="text-lg font-bold text-foreground/80">Chandigarh University</p>
                 <p className="text-sm text-foreground/50">Gharuan, Punjab, India</p>
@@ -77,6 +102,15 @@ export default function Education() {
               <p className="text-sm text-foreground/65 leading-relaxed pt-2">
                 Currently pursuing a Bachelor of Engineering in Computer Science & Engineering. Deeply engaged in core computer science paradigms, data structure visualizations, and full-stack web applications.
               </p>
+
+              {/* Current year indicator */}
+              <div className="flex items-center gap-3 pt-3">
+                <div className="relative">
+                  <div className="timeline-dot" />
+                  <div className="timeline-dot-pulse" />
+                </div>
+                <span className="text-xs font-mono font-semibold text-accent-blue">Currently in 3rd Year</span>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -93,18 +127,22 @@ export default function Education() {
           
           <div className="space-y-4">
             {highlights.map((highlight, idx) => (
-              <div
+              <motion.div
                 key={idx}
-                className="glass-panel glass-panel-hover p-6 rounded-2xl border border-card-border flex gap-4 items-start"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: idx * 0.1 }}
+                className="glass-panel glass-panel-hover shimmer-border p-6 rounded-2xl border border-card-border flex gap-4 items-start"
               >
-                <div className="p-3 rounded-xl bg-foreground/[0.02] border border-card-border/80 flex-shrink-0">
+                <div className="p-3 rounded-xl bg-foreground/[0.02] border border-card-border/80 flex-shrink-0 relative z-10">
                   {highlight.icon}
                 </div>
-                <div>
+                <div className="relative z-10">
                   <h4 className="font-bold text-foreground/90 text-base">{highlight.title}</h4>
                   <p className="text-sm text-foreground/60 mt-1.5 leading-relaxed">{highlight.description}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </motion.div>

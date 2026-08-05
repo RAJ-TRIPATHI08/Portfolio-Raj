@@ -77,6 +77,13 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Hide default cursor on desktop — custom dot+ring replaces it */
+@media (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
@@ -163,4 +170,304 @@ body {
   height: 100%;
   z-index: -1;
   pointer-events: none;
+}
+
+/* ========================
+   ENHANCED ANIMATIONS
+   ======================== */
+
+/* Slow spin for decorative elements */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+/* Shimmer sweep effect for cards */
+@keyframes shimmer {
+  0% { transform: translateX(-100%) rotate(15deg); }
+  100% { transform: translateX(200%) rotate(15deg); }
+}
+
+/* Rotating conic gradient for borders */
+@keyframes rotate-gradient {
+  0% { --gradient-angle: 0deg; }
+  100% { --gradient-angle: 360deg; }
+}
+
+/* Spotlight / radial glow follow cursor */
+@keyframes spotlight-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ========================
+   ROTATING BORDER (Profile Image)
+   ======================== */
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.rotating-border {
+  position: relative;
+}
+
+.rotating-border::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 1.5rem;
+  background: conic-gradient(
+    from var(--gradient-angle),
+    var(--accent-blue),
+    var(--accent-cyan),
+    var(--accent-purple),
+    #ec4899,
+    var(--accent-blue)
+  );
+  z-index: -1;
+  animation: rotate-gradient 4s linear infinite;
+}
+
+.rotating-border::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 1.5rem;
+  background: conic-gradient(
+    from var(--gradient-angle),
+    var(--accent-blue),
+    var(--accent-cyan),
+    var(--accent-purple),
+    #ec4899,
+    var(--accent-blue)
+  );
+  z-index: -2;
+  filter: blur(20px);
+  opacity: 0.5;
+  animation: rotate-gradient 4s linear infinite;
+}
+
+/* ========================
+   SHIMMER BORDER HOVER
+   ======================== */
+.shimmer-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-border::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.04),
+    transparent
+  );
+  transform: rotate(15deg);
+  transition: none;
+  pointer-events: none;
+}
+
+.shimmer-border:hover::after {
+  animation: shimmer 1.5s ease-in-out;
+}
+
+/* ========================
+   SCROLL PROGRESS BAR
+   ======================== */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  z-index: 100;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan), var(--accent-purple));
+  transition: width 0.1s linear;
+  box-shadow: 0 0 10px var(--accent-blue), 0 0 5px var(--accent-purple);
+}
+
+/* ========================
+   CARD SPOTLIGHT (cursor-follow radial glow)
+   ======================== */
+.card-spotlight {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-spotlight::before {
+  content: '';
+  position: absolute;
+  top: var(--spotlight-y, 50%);
+  left: var(--spotlight-x, 50%);
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(99, 102, 241, 0.08) 0%,
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.card-spotlight:hover::before {
+  opacity: 1;
+}
+
+:root.light .card-spotlight::before {
+  background: radial-gradient(
+    circle,
+    rgba(79, 70, 229, 0.06) 0%,
+    transparent 70%
+  );
+}
+
+/* ========================
+   3D TILT CARD
+   ======================== */
+.tilt-card {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.15s ease-out;
+}
+
+.tilt-card-inner {
+  transform-style: preserve-3d;
+}
+
+.tilt-card .tilt-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.03) 55%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.tilt-card:hover .tilt-shine {
+  opacity: 1;
+}
+
+/* ========================
+   FLOATING TAG ANIMATION
+   ======================== */
+@keyframes float-tag {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* ========================
+   TIMELINE STYLES
+   ======================== */
+.timeline-line {
+  position: absolute;
+  left: 22px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--accent-blue),
+    var(--accent-purple),
+    transparent
+  );
+}
+
+.timeline-dot {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-blue);
+  box-shadow: 0 0 12px var(--accent-blue), 0 0 4px var(--accent-blue);
+}
+
+.timeline-dot-pulse {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-blue);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ========================
+   INPUT FOCUS GLOW
+   ======================== */
+.input-glow {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-glow:focus {
+  border-color: var(--accent-blue) !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1), 0 0 15px rgba(99, 102, 241, 0.05);
+}
+
+:root.light .input-glow:focus {
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.08), 0 0 15px rgba(79, 70, 229, 0.04);
+}
+
+/* ========================
+   RADIAL PROGRESS RING
+   ======================== */
+.radial-progress-ring {
+  transform: rotate(-90deg);
+}
+
+.radial-progress-ring circle {
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========================
+   SECTION DIVIDER
+   ======================== */
+.section-divider {
+  position: relative;
+  width: 100%;
+  height: 80px;
+  overflow: hidden;
+}
+
+.section-divider svg {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ========================
+   CONFETTI BURST (Contact Success)
+   ======================== */
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100px) rotate(720deg) scale(0);
+    opacity: 0;
+  }
 }
